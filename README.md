@@ -1,5 +1,5 @@
 # Welcome to the Oasis
 
 ## Ethereum and Oasis Credit web wallet
- - http://www.myoasis.xyz
+ - [myoasis.xyz](http://www.myoasis.xyz)
 
