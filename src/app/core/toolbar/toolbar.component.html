@@ -1,0 +1,12 @@
+<header>
+	<mat-toolbar color="primary">
+		<button mat-icon-button (click)="navService.toggleMenu()">
+			<mat-icon>menu</mat-icon>
+		</button>
+		<span><ng-content></ng-content></span>
+		<span fxFlex></span>
+		<a href="{{githubUrl}}" class="toolbar-icon">
+      <img src="assets/GitHub-Mark-Light-64px.png" class="toolbar-icon">
+    </a>
+	</mat-toolbar>
+</header>

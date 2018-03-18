@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "oasis",
       "styles": [
-        "styles.css",
+        "styles.scss",
         "theme.scss"
       ],
       "scripts": [],
