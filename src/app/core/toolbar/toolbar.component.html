@@ -1,6 +1,6 @@
 <header>
-	<mat-toolbar color="primary">
-		<button mat-icon-button (click)="navService.toggleMenu()">
+	<mat-toolbar>
+		<button *ngIf="showMenu" mat-icon-button (click)="navService.toggleMenu()">
 			<mat-icon>menu</mat-icon>
 		</button>
 		<span><ng-content></ng-content></span>

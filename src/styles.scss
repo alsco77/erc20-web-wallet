@@ -1,10 +1,15 @@
-/* @import 'fonts/fonts.css'; */
+@import '~@angular/material/theming';
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 @import "theme.scss";
 
 * {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.my-theme {  
+	// use our theme with angular-material-theme mixin
+	@include angular-material-theme($theme);
 }
 
 html, body {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -14,7 +15,9 @@ import {
   MatCardModule,
   MatDialogModule,
   MatIconModule,
+  MatInputModule,
   MatListModule,
+  MatFormFieldModule,
   MatMenuModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
@@ -25,11 +28,14 @@ import {
   imports: [
     CommonModule,
     FlexLayoutModule,
+    FormsModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
+    MatFormFieldModule,
     MatMenuModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
@@ -44,11 +50,14 @@ import {
   ],
   exports: [
     FlexLayoutModule,
+    FormsModule,
     ToolbarComponent,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
     MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
     MatListModule,
     MatMenuModule,
     MatProgressSpinnerModule,

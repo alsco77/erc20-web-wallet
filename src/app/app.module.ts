@@ -6,21 +6,22 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
-import { AuthenticateComponent } from './authenticate/authenticate.component';
+import { HomeModule } from './home/home.module';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AuthenticateComponent
+    AppComponent
   ],
   imports: [
     RouterModule.forRoot([
-      { path: '', component: AuthenticateComponent },
+      { path: '', component: HomeComponent },
     ]),
     BrowserModule,
     BrowserAnimationsModule,
-    CoreModule
+    CoreModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
