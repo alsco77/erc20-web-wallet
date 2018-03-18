@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Web3Service } from '../../core/web3.service';
 
 @Component({
   selector: 'oasis-authenticate',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthenticateComponent implements OnInit {
 
-  constructor() { }
+  public privateKey: string;
+  public address: string;
+
+  constructor(private web3: Web3Service) { }
 
   ngOnInit() {
+  }
+
+  async retrieveAccountAsync(pkey: string) {
+    const acc = await this.web3.getAccountAsync(pkey);
+    this.address = acc.address;
   }
 
 }
