@@ -49,6 +49,7 @@ import {
     Web3Service
   ],
   exports: [
+    CommonModule,
     FlexLayoutModule,
     FormsModule,
     ToolbarComponent,

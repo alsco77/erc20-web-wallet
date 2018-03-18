@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { HomeModule } from './home/home.module';
 import { HomeComponent } from './home/home.component';
 
@@ -21,6 +22,7 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
+    DashboardModule,
     HomeModule
   ],
   providers: [],
