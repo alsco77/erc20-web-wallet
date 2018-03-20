@@ -10,19 +10,19 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
 
   @Input() name: string;
   @Input() accountAddr: string;
-  // @Input() contractAddr: string;
+  @Input() contractAddr: string;
 
-  balance: string;
+  balance: number;
 
   constructor(private web3: Web3Service) { }
 
   async ngOnInit() {
-    this.balance = await this.web3.getTokenBalanceAsync(this.accountAddr, '');
+    this.balance = await this.web3.getTokenBalanceAsync(this.accountAddr, this.contractAddr);
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    const newAccountAddr: string = changes.accountAddr.currentValue;
-    this.balance = await this.web3.getTokenBalanceAsync(newAccountAddr, '');
+    // const newAccountAddr: string = changes.accountAddr.currentValue;
+    // this.balance = await this.web3.getTokenBalanceAsync(newAccountAddr, this.contractAddr);
   }
 
 }

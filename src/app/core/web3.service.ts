@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
+import { Utils } from './utils';
+
 const Web3 = require('web3');
 
 export class EthAccount {
@@ -22,7 +24,7 @@ export class Web3Service {
   public authenticatedAccount$ = this.authenticatedAccount.asObservable();
 
 
-  constructor() {
+  constructor(private utils: Utils) {
     if (typeof this.web3 !== 'undefined') {
       this.web3 = new Web3(this.web3.currentProvider);
     } else {
@@ -38,21 +40,26 @@ export class Web3Service {
     return Promise.resolve(acc);
   }
 
-  async getTokenBalanceAsync(ethAddr: string, tokenAddr: string) {
-    const ethAddrSub = ethAddr.substring(2);
-    const contractData = this.web3.utils.sha3(`balanceOf()`).substr(0, 10) + '000000000000000000000000' + ethAddrSub;
-    this.web3.eth.call({
-      to: '0x1400e4e754f91c9d58dcf2d0029ed988a053c316',
-      data: contractData
-    }, (err, result) => {
-      if (result) {
-        const tokens = this.web3.utils.toBN(result).toString();
-        console.log('Tokens Owned: ' + this.web3.utils.fromWei(tokens, 'ether'));
-      } else {
-        console.log(err); // Dump errors here
-      }
-    });
-    return '';
+  private async ethCallAsync(contractAddr: string, data: string): Promise<any> {
+    // await this.web3.eth.call({
+    //   to: tokenAddr,
+    //   data: contractData
+    // };
   }
 
+  async getTokenBalanceAsync(userAddress: string, tokenAddr: string): Promise<number> {
+    const parsedUserAddress = this.utils.getNakedAddress(userAddress);
+    const functionHash = this.utils.getFunctionSignature('balanceOf(address)');
+    const contractData = functionHash + '000000000000000000000000' + parsedUserAddress;
+    const balanceHex = await this.web3.eth.call({
+      to: tokenAddr,
+      data: contractData
+    });
+    if (balanceHex) {
+      const tokens = this.utils.hexToDecimal(balanceHex);
+      console.log('Tokens Owned: ' + tokens);
+      return Promise.resolve(tokens);
+    }
+    return Promise.reject(null);
+  }
 }

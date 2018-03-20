@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { Web3Service } from './web3.service';
+import { Utils } from './utils';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
 import {
@@ -46,7 +47,8 @@ import {
     ToolbarComponent
   ],
   providers: [
-    Web3Service
+    Web3Service,
+    Utils
   ],
   exports: [
     CommonModule,
