@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { Web3Service } from '../../core/web3.service';
+import { Coin } from '../../core/coin';
 
 @Component({
   selector: 'oasis-coin-summary',
@@ -8,16 +9,19 @@ import { Web3Service } from '../../core/web3.service';
 })
 export class CoinSummaryComponent implements OnInit, OnChanges {
 
-  @Input() name: string;
+  @Input() coin: Coin;
   @Input() accountAddr: string;
-  @Input() contractAddr: string;
 
   balance: number;
 
   constructor(private web3: Web3Service) { }
 
   async ngOnInit() {
-    this.balance = await this.web3.getTokenBalanceAsync(this.accountAddr, this.contractAddr);
+    if (this.coin.id === 'ethereum') {
+
+    } else {
+      this.balance = await this.web3.getTokenBalanceAsync(this.accountAddr, this.coin.contractAddress);
+    }
   }
 
   async ngOnChanges(changes: SimpleChanges) {

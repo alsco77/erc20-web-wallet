@@ -1,5 +1,16 @@
-<p>
-  coin-summary works!
-  <br />
-  Balance: {{balance}}
-</p>
+
+
+<mat-card class="coin-card">
+  <mat-card-header>
+    <mat-card-title>{{coin.name}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="assets/token-images/{{coin.id}}.png" alt="{{coin.name}} emblem">
+  <mat-card-content>
+    Balance: {{balance}} {{coin.symbol}}
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>SEND</button>
+    <button mat-button>RECEIVE</button>
+    <button mat-button>EXCHANGE</button>
+  </mat-card-actions>
+</mat-card>

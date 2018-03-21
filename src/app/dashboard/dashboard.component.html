@@ -1,7 +1,4 @@
-<p>
-  dashboard works!
-</p>
-<div *ngIf="account" >
-  <oasis-coin-summary [name]="OasisCredit" [accountAddr]="account.address" [contractAddr]="contract.addr"></oasis-coin-summary>
+<div class="coin-container" fxLayout="row" *ngIf="account">
+      <oasis-coin-summary *ngFor="let coin of coins" [coin]="coin" [accountAddr]="account.address"></oasis-coin-summary>
 
 </div>
