@@ -10,6 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { Web3Service } from './web3.service';
 import { Utils } from './utils';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { WeiToEthPipe } from './pipes/wei-to-eth.pipe';
 
 import {
   MatButtonModule,
@@ -44,7 +45,8 @@ import {
     RouterModule
   ],
   declarations: [
-    ToolbarComponent
+    ToolbarComponent,
+    WeiToEthPipe
   ],
   providers: [
     Web3Service,
@@ -66,7 +68,8 @@ import {
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatToolbarModule,
-    RouterModule
+    RouterModule,
+    WeiToEthPipe
   ]
 })
 export class CoreModule { }

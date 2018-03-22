@@ -16,9 +16,13 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
 
   constructor(private web3: Web3Service) { }
 
-  async ngOnInit() {
-    if (this.coin.id === 'ethereum') {
+  isEthereum() {
+    return this.coin.id === 'ethereum';
+  }
 
+  async ngOnInit() {
+    if (this.isEthereum()) {
+      this.balance = await this.web3.getEthBalanceAsync(this.accountAddr);
     } else {
       this.balance = await this.web3.getTokenBalanceAsync(this.accountAddr, this.coin.contractAddress);
     }

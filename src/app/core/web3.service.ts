@@ -62,4 +62,16 @@ export class Web3Service {
     }
     return Promise.reject(null);
   }
+
+  async getEthBalanceAsync(userAddress: string): Promise<number> {
+    // confirm useraddress has 0x
+    const balance = await this.web3.eth.getBalance(userAddress);
+    if (balance) {
+      console.log(balance);
+      const tokens = this.web3.utils.toBN(balance).toString();
+      console.log('Eth Owned: ' + this.web3.utils.fromWei(tokens, 'ether'));
+      return Promise.resolve(tokens);
+    }
+    return Promise.reject(null);
+  }
 }
