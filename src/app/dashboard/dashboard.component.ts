@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Web3Service, EthAccount } from '../core/web3.service';
 import { Coin } from '../core/coin';
 
@@ -15,7 +16,7 @@ export class DashboardComponent implements OnInit {
       id: 'oasisCredit',
       name: 'Oasis Credit',
       symbol: 'OCR',
-      contractAddress: '0x1400e4e754f91c9d58dcf2d0029ed988a053c316'
+      contractAddress: '0xcab46d722ab70590d04b55ea27eb344ff806c0eb'
     },
     {
       id: 'ethereum',
@@ -25,13 +26,22 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor(private web3: Web3Service) {
+  constructor(private web3: Web3Service, private router: Router) {
     this.web3.authenticatedAccount$.subscribe(acc => {
-      this.account = acc;
+      if (acc == null) {
+        this.router.navigate(['/']);
+      } else {
+        this.account = acc;
+
+      }
     });
   }
 
   ngOnInit() {
+  }
+
+  transferTokens() {
+    this.web3.transferTokensTest();
   }
 
 }

@@ -1,4 +1,6 @@
-<div class="coin-container" fxLayout="row" *ngIf="account">
-      <oasis-coin-summary *ngFor="let coin of coins" [coin]="coin" [accountAddr]="account.address"></oasis-coin-summary>
+<div class="coin-container" fxLayout="row" fxLayoutAlign="center" *ngIf="account">
+      <oasis-coin-summary fxFlex="0 0 50" *ngFor="let coin of coins" [coin]="coin" [accountAddr]="account.address"></oasis-coin-summary>
 
 </div>
+
+<div (click)="transferTokens()">Click me </div>

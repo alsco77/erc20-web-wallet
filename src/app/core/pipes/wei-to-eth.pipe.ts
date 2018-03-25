@@ -7,9 +7,9 @@ const Web3 = require('web3');
 })
 export class WeiToEthPipe implements PipeTransform {
 
-  transform(wei: number, args?: any): number {
-    const weiString = Web3.utils.toBN(wei).toString();
-    return Web3.utils.fromWei(weiString, 'ether');
+  transform(wei: string, args?: any): number {
+    // const weiString = Web3.utils.toBN(Web3.utils.toHex(wei)).toString();
+    return Web3.utils.fromWei(wei, 'ether');
   }
 
 }
