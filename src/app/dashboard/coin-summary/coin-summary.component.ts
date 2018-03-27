@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 import { Web3Service, EthAccount } from '../../core/web3.service';
 import { WebFuncService } from '../../core/web-func.service';
 import { Coin } from '../../core/coin';
-
-
+import { PurchaseTokenDialogComponent } from './purchase-token-dialog/purchase-token-dialog.component';
 
 @Component({
   selector: 'oasis-coin-summary',
@@ -19,13 +20,14 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
   price: number = null;
   balanceLoaded = false;
 
-  constructor(private web3Service: Web3Service, private webFunc: WebFuncService) { }
+  constructor(private web3Service: Web3Service, private webFunc: WebFuncService, public dialog: MatDialog) { }
 
   isEthereum() {
     return this.coin.id === 'ethereum';
   }
 
   async ngOnInit() {
+    // subscribe to block even to keep balance up to date
     // const filter = this.web3Service.web3.eth.subscribe('latest');
     // filter.watch((err, res) => {
     //   if (err) {
@@ -49,12 +51,22 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    // const newAccountAddr: string = changes.accountAddr.currentValue;
-    // this.balance = await this.web3.getTokenBalanceAsync(newAccountAddr, this.contractAddr);
   }
 
-  purchaseTokens(ethAmount: number, gasPriceGwei: number, gasLimit: number) {
-    const result = this.web3Service.purchaseTokensAsync(this.account.address, this.account.privateKey, this.coin.contractAddress,
-       this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)), gasPriceGwei, gasLimit);
+
+  purchaseTokens(watchListName: string) {
+    const tokenPurchaseDialog = this.dialog.open(PurchaseTokenDialogComponent, {
+      width: '500px',
+      data: {
+        coin: this.coin,
+        account: this.account
+      }
+    });
+
+    tokenPurchaseDialog.afterClosed().subscribe(res => {
+      if (res !== undefined && res === true) {
+          this.setBalanceAsync();
+      }
+    });
   }
 }

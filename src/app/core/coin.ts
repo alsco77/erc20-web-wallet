@@ -4,4 +4,5 @@ export class Coin {
     symbol: string;
     contractAddress: string;
     saleContractAddress: string;
+    ratio: number;
 }

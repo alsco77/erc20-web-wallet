@@ -52,14 +52,13 @@ export class Web3Service {
   async getTokenBalanceAsync(userAddress: string, tokenAddr: string): Promise<string> {
     const parsedUserAddress = this.utils.getNakedAddress(userAddress);
     const functionHash = this.utils.getFunctionSignature('balanceOf(address)');
+    // functionHash should be parsed to certain length
     const contractData = functionHash + '000000000000000000000000' + parsedUserAddress;
     const balanceHex = await this.web3.eth.call({
       to: tokenAddr,
       data: contractData
     });
     if (balanceHex) {
-      // const tokens = this.utils.hexToDecimal(balanceHex);
-      // console.log('Tokens Owned: ' + tokens);
       return Promise.resolve(this.web3.utils.toBN(balanceHex).toString());
     }
     return Promise.reject(null);
@@ -78,41 +77,46 @@ export class Web3Service {
   }
 
   async purchaseTokensAsync(userAddress: string, userPrivKey: string, saleContractAddress: string, weiAmountHex: string,
-    gasPriceGwei: number, gasLimit: number): Promise<any> {
+    gasPriceGwei: number, gasLimit: number): Promise<object> {
+    try {
+      userAddress = this.utils.prefixHex(userAddress);
+      saleContractAddress = this.utils.prefixHex(saleContractAddress);
+      const contract = new this.web3.eth.Contract(this.abi.crowdsale, saleContractAddress, {
+          from: userAddress
+      });
 
-    userAddress = this.utils.prefixHex(userAddress);
-    saleContractAddress = this.utils.prefixHex(saleContractAddress);
-    const contract = new this.web3.eth.Contract(this.abi.crowdsale, saleContractAddress, {
-        from: userAddress
-    });
+      const count = await this.web3.eth.getTransactionCount(userAddress);
+      const chainId = await this.web3.eth.net.getId();
 
-    const count = await this.web3.eth.getTransactionCount(userAddress);
-    const chainId = await this.web3.eth.net.getId();
+      const rawTransaction = {
+          'from': userAddress,
+          'nonce': '0x' + count.toString(16),
+          'gasPrice': this.web3.utils.toHex(gasPriceGwei * 1e9),
+          'gasLimit': this.web3.utils.toHex(gasLimit),
+          'to': saleContractAddress,
+          'value': weiAmountHex,
+          'data': contract.methods.buyTokens(userAddress).encodeABI(),
+          'chainId': chainId
+      };
 
-    const rawTransaction = {
-        'from': userAddress,
-        'nonce': '0x' + count.toString(16),
-        'gasPrice': this.web3.utils.toHex(gasPriceGwei * 1e9),
-        'gasLimit': this.web3.utils.toHex(gasLimit),
-        'to': saleContractAddress,
-        'value': weiAmountHex,
-        'data': contract.methods.buyTokens(userAddress).encodeABI(),
-        'chainId': chainId
-    };
+      console.log(`Raw tx: \n${JSON.stringify(rawTransaction, null, '\t')}`);
 
-    console.log(`Raw tx: \n${JSON.stringify(rawTransaction, null, '\t')}`);
+      userPrivKey = this.utils.getNakedAddress(userPrivKey);
+      const privKey = new Buffer(userPrivKey, 'hex');
 
-    userPrivKey = this.utils.getNakedAddress(userPrivKey);
-    const privKey = new Buffer(userPrivKey, 'hex');
+      const tx = new Tx(rawTransaction);
+      tx.sign(privKey);
+      const serializedTxHex = tx.serialize().toString('hex');
 
-    const tx = new Tx(rawTransaction);
-    tx.sign(privKey);
-    const serializedTxHex = tx.serialize().toString('hex');
+      console.log(`Sending signed tx: ${serializedTxHex.toString('hex')}`);
 
-    console.log(`Sending signed tx: ${serializedTxHex.toString('hex')}`);
+      const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'));
 
-    const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'));
+      console.log(`Receipt: \n${JSON.stringify(receipt, null, '\t')}`);
 
-    console.log(`Receipt: \n${JSON.stringify(receipt, null, '\t')}`);
+      return Promise.resolve(receipt);
+    } catch (e) {
+      return Promise.reject(null);
+    }
   }
 }

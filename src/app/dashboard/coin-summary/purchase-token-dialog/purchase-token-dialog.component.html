@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>
+  Purchase {{coin.symbol}}
+</h1>
+<div mat-dialog-content>
+  <div class="form">
+      <mat-form-field class="eth-input">
+          <input matInput [disabled]="saving" placeholder="ETH Amount" [(ngModel)]="purchaseAmountEth"/>
+      </mat-form-field>
+      You will get: {{getTokenAmount()}} {{coin.symbol}}
+      <mat-slider
+        class=""
+        [disabled]="saving"
+        [invert]="invert"
+        [max]="100"
+        [min]="1"
+        [step]="1"
+        [(ngModel)]="weiAmount"
+        [vertical]="false">
+    </mat-slider>
+  </div>
+  <div [hidden]="!error" class="errorMessage">
+      {{errorMessage}}
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [disabled]="saving" (click)="onNoClick()">
+      Cancel
+  </button>
+  <button mat-raised-button color="primary" (click)="purchaseTokensAsync(purchaseAmountEth, weiAmount, '210000')" [disabled]="saving">
+      <span id="spinnerContainer" *ngIf="saving && !saved">
+          <mat-spinner [diameter]="20" class="spinner">
+          </mat-spinner>
+      </span>
+      <span *ngIf="!saving && !saved">
+          PURCHASE
+      </span>
+      <span id="iconContainer" *ngIf="saved">
+          <mat-icon class="green-icon">done</mat-icon>
+      </span>
+  </button>
+</div>

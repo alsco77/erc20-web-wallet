@@ -12,6 +12,6 @@
   <mat-card-actions>
     <button mat-button>SEND</button>
     <button mat-button>RECEIVE</button>
-    <button mat-button (click)="purchaseTokens('1.2', '41', '210000')">EXCHANGE</button>
+    <button mat-button *ngIf="coin.saleContractAddress != null" (click)="purchaseTokens()">EXCHANGE</button>
   </mat-card-actions>
 </mat-card>

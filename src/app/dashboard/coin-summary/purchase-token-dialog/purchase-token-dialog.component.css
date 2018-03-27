@@ -1,0 +1,30 @@
+.form {
+    min-width: 150px;
+    max-width: 70vw;
+    width: 100%;
+    min-height: 80px;
+}
+
+.eth-input {
+    width: 100%;
+    padding: 15px 5px;
+  }
+
+mat-spinner.spinner{
+  margin: 0 auto;
+  display:-webkit-inline-box;
+  color: orange;
+}
+
+mat-icon.green-icon{
+  color: greenyellow;
+}
+
+span#spinnerContainer, span#iconContainer{
+  display: inline-grid;
+}
+
+.errorMessage
+{
+    color: red;
+}
