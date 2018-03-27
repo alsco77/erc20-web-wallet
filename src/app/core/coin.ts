@@ -3,4 +3,5 @@ export class Coin {
     name: string;
     symbol: string;
     contractAddress: string;
+    saleContractAddress: string;
 }

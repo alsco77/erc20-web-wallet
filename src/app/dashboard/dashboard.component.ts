@@ -16,13 +16,15 @@ export class DashboardComponent implements OnInit {
       id: 'oasisCredit',
       name: 'Oasis Credit',
       symbol: 'OCR',
-      contractAddress: '0xcab46d722ab70590d04b55ea27eb344ff806c0eb'
+      contractAddress: '0xcab46d722ab70590d04b55ea27eb344ff806c0eb',
+      saleContractAddress: '0xd0cd15c52eef857928035e62db3410bbc1aad64b'
     },
     {
       id: 'ethereum',
       name: 'Ethereum',
       symbol: 'ETH',
-      contractAddress: ''
+      contractAddress: '',
+      saleContractAddress: ''
     }
   ];
 
@@ -39,9 +41,4 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  transferTokens() {
-    this.web3.transferTokensTest();
-  }
-
 }
