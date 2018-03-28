@@ -17,6 +17,11 @@ export class EthAccount {
   encrypt: Function;
 }
 
+export class TransactionReceipt {
+  status: string;
+  transactionHash: string;
+}
+
 
 @Injectable()
 export class Web3Service {
@@ -76,28 +81,45 @@ export class Web3Service {
     return Promise.reject(null);
   }
 
+
+
+  async estimateGasAsync(rawTransaction: any) {
+      const gasCost = await this.web3.eth.estimateGas(rawTransaction);
+      console.log('Gascost: '  + gasCost);
+      return Promise.resolve(gasCost);
+  }
+
+  async getPurchaseTokensTransaction(userAddress: string, saleContractAddress: string, weiAmountHex: string,
+    gasPriceGwei: number, gasLimit: number): Promise<any> {
+    userAddress = this.utils.prefixHex(userAddress);
+    saleContractAddress = this.utils.prefixHex(saleContractAddress);
+
+    const contract = new this.web3.eth.Contract(this.abi.crowdsale, saleContractAddress, {
+        from: userAddress
+    });
+
+    const count = await this.web3.eth.getTransactionCount(userAddress);
+    const chainId = await this.web3.eth.net.getId();
+
+    const rawTransaction = {
+        'from': userAddress,
+        'nonce': '0x' + count.toString(16),
+        'gasPrice': this.web3.utils.toHex(gasPriceGwei * 1e9),
+        'gasLimit': this.web3.utils.toHex(gasLimit),
+        'to': saleContractAddress,
+        'value': weiAmountHex,
+        'data': contract.methods.buyTokens(userAddress).encodeABI(),
+        'chainId': chainId
+    };
+
+    return Promise.resolve(rawTransaction);
+  }
+
   async purchaseTokensAsync(userAddress: string, userPrivKey: string, saleContractAddress: string, weiAmountHex: string,
-    gasPriceGwei: number, gasLimit: number): Promise<object> {
+    gasPriceGwei: number, gasLimit: number): Promise<TransactionReceipt> {
     try {
-      userAddress = this.utils.prefixHex(userAddress);
-      saleContractAddress = this.utils.prefixHex(saleContractAddress);
-      const contract = new this.web3.eth.Contract(this.abi.crowdsale, saleContractAddress, {
-          from: userAddress
-      });
-
-      const count = await this.web3.eth.getTransactionCount(userAddress);
-      const chainId = await this.web3.eth.net.getId();
-
-      const rawTransaction = {
-          'from': userAddress,
-          'nonce': '0x' + count.toString(16),
-          'gasPrice': this.web3.utils.toHex(gasPriceGwei * 1e9),
-          'gasLimit': this.web3.utils.toHex(gasLimit),
-          'to': saleContractAddress,
-          'value': weiAmountHex,
-          'data': contract.methods.buyTokens(userAddress).encodeABI(),
-          'chainId': chainId
-      };
+      const rawTransaction = await this.getPurchaseTokensTransaction(userAddress, saleContractAddress, weiAmountHex,
+        gasPriceGwei, gasLimit);
 
       console.log(`Raw tx: \n${JSON.stringify(rawTransaction, null, '\t')}`);
 
@@ -112,6 +134,7 @@ export class Web3Service {
 
       const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'));
 
+      // look at the return types from send transaction, emits multiple events, can subscribe to it and handle differently
       console.log(`Receipt: \n${JSON.stringify(receipt, null, '\t')}`);
 
       return Promise.resolve(receipt);
