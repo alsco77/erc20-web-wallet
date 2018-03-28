@@ -16,6 +16,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
   purchaseAmountEth = '0.000';
   gweiAmount = 11;
   gasLimit = 200000;
+  ethBalance: number;
 
   error = false;
   errorMessage: string;
@@ -28,7 +29,8 @@ export class PurchaseTokenDialogComponent implements OnInit {
     this.account = data.account;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.ethBalance = await this.web3Service.getEthBalanceAsync(this.account.address);
   }
 
   getTokenAmount() {

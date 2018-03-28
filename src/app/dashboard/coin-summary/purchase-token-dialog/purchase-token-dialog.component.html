@@ -3,6 +3,7 @@
 </h1>
 <div mat-dialog-content>
   <div class="form">
+    <span *ngIf="ethBalance">Your ETH balance: {{ethBalance | weiToEth}}</span>
     <mat-form-field class="eth-input">
       <input matInput [disabled]="saving" placeholder="ETH Amount" (blur)="estimateGas(purchaseAmountEth, gweiAmount, gasLimit)" [(ngModel)]="purchaseAmountEth" />
     </mat-form-field>
