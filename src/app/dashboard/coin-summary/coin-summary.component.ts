@@ -29,16 +29,8 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
   async ngOnInit() {
     // subscribe to block even to keep balance up to date
     // const filter = this.web3Service.web3.eth.subscribe('latest');
-    // filter.watch((err, res) => {
-    //   if (err) {
-    //     console.log(`Watch error: ${err}`);
-    //   } else {
-    //     Update balance
-    //     this.setBalanceAsync();
-    //   }
-    // });
     this.setBalanceAsync();
-    // this.price = await this.webFunc.getCurrentPrice(this.coin.id);
+    this.price = await this.webFunc.getCurrentPriceAsync(this.coin.id);
   }
 
   async setBalanceAsync() {

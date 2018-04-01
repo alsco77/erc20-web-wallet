@@ -58,17 +58,10 @@ export class Web3Service {
     return Promise.resolve(acc);
   }
 
-  private async ethCallAsync(contractAddr: string, data: string): Promise<any> {
-    // await this.web3.eth.call({
-    //   to: tokenAddr,
-    //   data: contractData
-    // };
-  }
-
   async getTokenBalanceAsync(userAddress: string, tokenAddr: string): Promise<string> {
     const parsedUserAddress = this.utils.getNakedAddress(userAddress);
     const functionHash = this.utils.getFunctionSignature('balanceOf(address)');
-    // functionHash should be parsed to certain length
+    // TODO - functionHash should be parsed to certain length
     const contractData = functionHash + '000000000000000000000000' + parsedUserAddress;
     const balanceHex = await this.web3.eth.call({
       to: tokenAddr,
@@ -81,7 +74,7 @@ export class Web3Service {
   }
 
   async getEthBalanceAsync(userAddress: string): Promise<string> {
-    // confirm useraddress has 0x
+    // TODO  - confirm useraddress has 0x
     const balance = await this.web3.eth.getBalance(userAddress);
     if (balance) {
       console.log(balance);
@@ -91,8 +84,6 @@ export class Web3Service {
     }
     return Promise.reject(null);
   }
-
-
 
   async estimateGasAsync(rawTransaction: any) {
     const gasCost = await this.web3.eth.estimateGas(rawTransaction);
@@ -131,9 +122,7 @@ export class Web3Service {
     try {
       const rawTransaction = await this.getPurchaseTokensTransaction(userAddress, saleContractAddress, weiAmountHex,
         gasPriceGwei, gasLimit);
-
       console.log(`Raw tx: \n${JSON.stringify(rawTransaction, null, '\t')}`);
-
       this.firebase.logTokenPurchaseTxCreated(userAddress, rawTransaction);
 
       userPrivKey = this.utils.getNakedAddress(userPrivKey);
@@ -144,17 +133,14 @@ export class Web3Service {
       const serializedTxHex = tx.serialize().toString('hex');
 
       console.log(`Sending signed tx: ${serializedTxHex.toString('hex')}`);
-
       this.firebase.logTokenPurchaseTxSent(userAddress, serializedTxHex.toString('hex'));
 
       const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'))
         .on('transactionHash', hash => {
           successCallback(hash);
         });
-
       console.log(`Receipt: \n${JSON.stringify(receipt, null, '\t')}`);
       this.firebase.logTokenPurchaseSuccess(userAddress, JSON.stringify(receipt));
-
       return Promise.resolve(receipt);
     } catch (e) {
       this.firebase.logTokenPurchaseError(userAddress, JSON.stringify(e));

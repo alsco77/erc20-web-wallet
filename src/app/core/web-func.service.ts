@@ -8,14 +8,14 @@ export class WebFuncService {
 
   constructor(private http: Http) { }
 
-  // getCurrentPrice(coinId: string): Promise<number> {
-  //   this.http.get(this.coinMarketCapApi + '/ticker/' + coinId).subscribe(res => {
-  //     console.log(res);
-  //     // return Promise.resolve(parseInt(coinInfo.price_usd, 10));
-  //     return Promise.resolve(53);
-  //   }, err => {
-  //     return Promise.reject(null);
-  //   });
-  // }
+  async getCurrentPriceAsync(coinId: string): Promise<number> {
+    // const res = await this.http.get(this.coinMarketCapApi + '/ticker/' + coinId).toPromise();
+    // console.log(res);
+    // console.log(JSON.stringify(res));
+    // if (res) {
+    //   return Promise.resolve(parseFloat(res['price_usd']));
+    // }
+    return Promise.resolve(null);
+  }
 
 }

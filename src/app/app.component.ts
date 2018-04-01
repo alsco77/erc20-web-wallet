@@ -15,6 +15,5 @@ export class AppComponent {
       return outlet.activatedRouteData.state;
     }
     return null;
-
   }
 }
