@@ -22,7 +22,7 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     RouterModule.forRoot([
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent,  data: {state: 'home'}  },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

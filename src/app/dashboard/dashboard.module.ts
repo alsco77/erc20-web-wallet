@@ -10,7 +10,7 @@ import { PurchaseTokenDialogComponent } from './coin-summary/purchase-token-dial
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent,  data: {state: 'dashboard'}  },
     ]),
     CoreModule,
     MatSliderModule

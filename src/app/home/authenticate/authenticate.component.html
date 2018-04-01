@@ -4,7 +4,7 @@
       <textarea matInput placeholder="Private key" name="privateKey" [(ngModel)]="privateKey"></textarea>
     </mat-form-field>
     <span fxFlex></span>
-    <button [disabled]="retrievingKey" mat-raised-button color="accent" class="pkey-submit" (click)="retrieveAccountAsync(privateKey)">
+    <button type="button" [disabled]="retrievingKey" mat-raised-button color="accent" class="pkey-submit" (click)="retrieveAccountAsync(privateKey)">
       GO
     </button>
   </form>
