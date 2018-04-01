@@ -3,7 +3,7 @@
   <div class="content" fxFlex="40">
     <span class="title">{{coin.name}} ({{coin.symbol}})</span>
     <br/>
-    <span class="balance" *ngIf="balanceLoaded">Balance: {{balance | weiToEth | currencyFormat}} {{coin.symbol}}</span>
+    <span class="balance">Balance: <span *ngIf="balanceLoaded">{{balance | weiToEth | currencyFormat}}</span> {{coin.symbol}}</span>
     <span *ngIf="price != null">{{(balance | weiToEth )* price}} USD</span>
 
   </div>

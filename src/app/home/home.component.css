@@ -14,3 +14,7 @@
   margin: auto 0px 0px 0px;
   font-size: 4em;
 }
+
+.rpo-link{
+    cursor: pointer;
+}

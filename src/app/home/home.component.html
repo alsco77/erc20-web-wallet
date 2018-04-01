@@ -1,18 +1,21 @@
 <div class="home-container" fxLayout="column" fxLayoutAlign="start center">
   <div fxFlex="10"></div>
   <div fxFlex="150px" fxLayoutAlign="row" class="oasis-title-container">
-      <img src="assets/palm-tree.png" fxFlex="150px" class="oasis-icon">
-      <h1  class="oasis-title">My Oasis</h1>
+    <img src="assets/palm-tree.png" fxFlex="150px" class="oasis-icon">
+    <h1 class="oasis-title">My Oasis</h1>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center center" style="width: 80%" fxFlexOffset="8">
-      <button fxFlex="150px" mat-raised-button color="accent" class="auth-button" (click)="authViaPkey()">
-          Enter Private Key
-      </button>
-      <button [disabled]="true" fxFlexOffset="40px" fxFlex="150px" mat-raised-button color="accent" class="auth-button" (click)="createAccount()">
-          Create account
-      </button>
+  <div fxFlex="50px">
+    <p>Keep your Credits safe in this sleek wallet then explore the limits of your imagination in the Oasis</p>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" style="width: 80%" fxFlexOffset="6">
+    <button fxFlex="150px" mat-raised-button color="accent" class="auth-button" (click)="authViaPkey()">
+      Enter Private Key
+    </button>
+    <button [disabled]="true" fxFlexOffset="40px" fxFlex="150px" mat-raised-button color="accent" class="auth-button" (click)="createAccount()">
+      Create account
+    </button>
   </div>
   <div *ngIf="authType == 'pKey'" style="width: 80%" fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="40px">
-      <oasis-authenticate fxFlex="80"></oasis-authenticate>
+    <oasis-authenticate fxFlex="80"></oasis-authenticate>
   </div>
 </div>

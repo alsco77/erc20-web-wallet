@@ -42,6 +42,7 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
   }
 
   async setBalanceAsync() {
+    this.balanceLoaded = false;
     if (this.isEthereum()) {
       this.balance = await this.web3Service.getEthBalanceAsync(this.account.address);
     } else {
