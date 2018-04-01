@@ -3,3 +3,10 @@
     height:24px;
     cursor: pointer;
 }
+
+.provider{
+    font-size: 0.6em;
+    line-height: 1;
+    padding-right: 20px;
+    text-align: center;
+}

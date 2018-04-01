@@ -28,16 +28,25 @@ export class TransactionReceipt {
 export class Web3Service {
 
   public web3: any;
+
+  private currentProvider = new BehaviorSubject<any>(null);
+  public currentProvider$ = this.currentProvider.asObservable();
+
   public authenticatedAccount = new BehaviorSubject<EthAccount>(null);
   public authenticatedAccount$ = this.authenticatedAccount.asObservable();
 
 
   constructor(private utils: Utils, private abi: ABI, private firebase: FirebaseService) {
     if (typeof this.web3 !== 'undefined') {
-      this.web3 = new Web3(this.web3.currentProvider);
+      this.setProvider(this.web3.currentProvider);
     } else {
-      this.web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
+      this.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
     }
+  }
+
+  setProvider(provider: any) {
+    this.web3 = new Web3(provider);
+    this.currentProvider.next(provider.host);
   }
 
   async getAccountFromPKeyAsync(pkey: string): Promise<EthAccount> {
