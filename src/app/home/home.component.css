@@ -1,14 +1,16 @@
-:host{ height:100% }
-
-.home-container{
-    height: calc(100% - 64px);
+:host {
+  height: 100%
 }
 
-.oasis-title-container{
-    margin-left: -75px;
+.home-container {
+  height: calc(100% - 64px);
 }
 
-.oasis-title{
-    margin: auto 0px 0px 0px;
-    font-size: 4em;
+.oasis-title-container {
+  margin-left: -75px;
+}
+
+.oasis-title {
+  margin: auto 0px 0px 0px;
+  font-size: 4em;
 }

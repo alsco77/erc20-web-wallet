@@ -7,7 +7,7 @@ import { Coin } from '../../../core/coin';
   selector: 'oasis-purchase-token-dialog',
   templateUrl: './purchase-token-dialog.component.html',
   styleUrls: ['./purchase-token-dialog.component.css',
-              './purchase-token-dialog.component.scss-theme.scss']
+    './purchase-token-dialog.component.scss-theme.scss']
 })
 export class PurchaseTokenDialogComponent implements OnInit {
 
@@ -21,8 +21,10 @@ export class PurchaseTokenDialogComponent implements OnInit {
 
   error = false;
   errorMessage: string;
-  saving = false;
-  saved = false;
+  sending = false;
+
+  transactionSent = false;
+  txHash: string;
 
   constructor(public dialogRef: MatDialogRef<PurchaseTokenDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private web3Service: Web3Service) {
@@ -57,40 +59,44 @@ export class PurchaseTokenDialogComponent implements OnInit {
     }
   }
 
+  setTransactionAsSent(txHash: string) {
+    this.transactionSent = true;
+    this.sending = false;
+    this.txHash = txHash;
+  }
+
+  getTxLink(txHash: string) {
+    return 'https://ropsten.etherscan.io/tx/' + txHash;
+  }
+
   async purchaseTokensAsync(ethAmount: string, gasPriceGwei: number, gasLimit: number) {
 
     if (parseFloat(ethAmount) > 0) {
-      this.saving = true;
+      this.sending = true;
       this.error = false;
-
-      const result = await this.web3Service.purchaseTokensAsync(this.account.address, this.account.privateKey,
-        this.coin.saleContractAddress, this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)),
-          gasPriceGwei, gasLimit);
-      // instead of awaiting this we can subscribe to it and utilise different things
-      if (result) {
-        const status = parseInt(result.status, 16);
-        console.log(status);
-        if (status === 1) {
-          // return status
-          // success - result.transactionHash should show
-          // this.saved = true;
-          this.saved = true;
-          setTimeout(() => this.dialogRef.close(true), 3500);
-        } else {
+      try {
+        const result = await this.web3Service.purchaseTokensAsync(this.account.address, this.account.privateKey,
+          this.coin.saleContractAddress, this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)),
+          gasPriceGwei, gasLimit, this.setTransactionAsSent.bind(this));
+        if (!result || parseInt(result.status, 16) === 0) {
           this.setError('Transaction sending failed');
+        } else {
+          this.setTransactionAsSent(result.transactionHash);
+          // setTimeout(() => this.dialogRef.close(true), 5000);
         }
-      } else {
-        this.setError('Transaction compilation dailed');
+      } catch (e) {
+        this.setError('Transaction sending failed');
       }
     } else {
-      this.setError('Purchase amount must be a number');
+      this.setError('Purchase amount must be a positive number');
     }
   }
 
   setError(message: string): void {
-    this.saving = false;
-    this.error = true;
-    this.errorMessage = message;
+    if (!this.transactionSent) {
+      this.sending = false;
+      this.error = true;
+      this.errorMessage = message;
+    }
   }
-
 }

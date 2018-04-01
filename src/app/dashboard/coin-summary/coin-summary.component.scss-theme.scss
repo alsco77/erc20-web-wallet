@@ -1,17 +1,15 @@
 @import '~@angular/material/theming';
-
 @mixin coin-summary-theme($theme) {
-  
-    $primary: map-get($theme, primary);
-    $accent: map-get($theme, accent);
-    $warn: map-get($theme, accent);
-    
-    mat-card.coin-card {
-        border: 2px solid mat-color($primary, lighter);
-    }
 
-    div.content .balance{
-        color: mat-color($accent);
-    }
-    
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  mat-card.coin-card {
+    border: 2px solid mat-color($primary, lighter);
+    background-color: mat-color($primary);
   }
+
+  div.content .balance {
+    color: mat-color($accent);
+  }
+}

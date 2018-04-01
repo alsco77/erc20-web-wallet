@@ -95,9 +95,9 @@ export class Web3Service {
 
 
   async estimateGasAsync(rawTransaction: any) {
-      const gasCost = await this.web3.eth.estimateGas(rawTransaction);
-      console.log('Gascost: '  + gasCost);
-      return Promise.resolve(gasCost);
+    const gasCost = await this.web3.eth.estimateGas(rawTransaction);
+    console.log('Gascost: ' + gasCost);
+    return Promise.resolve(gasCost);
   }
 
   async getPurchaseTokensTransaction(userAddress: string, saleContractAddress: string, weiAmountHex: string,
@@ -106,28 +106,28 @@ export class Web3Service {
     saleContractAddress = this.utils.prefixHex(saleContractAddress);
 
     const contract = new this.web3.eth.Contract(this.abi.crowdsale, saleContractAddress, {
-        from: userAddress
+      from: userAddress
     });
 
     const count = await this.web3.eth.getTransactionCount(userAddress);
     const chainId = await this.web3.eth.net.getId();
 
     const rawTransaction = {
-        'from': userAddress,
-        'nonce': '0x' + count.toString(16),
-        'gasPrice': this.web3.utils.toHex(gasPriceGwei * 1e9),
-        'gasLimit': this.web3.utils.toHex(gasLimit),
-        'to': saleContractAddress,
-        'value': weiAmountHex,
-        'data': contract.methods.buyTokens(userAddress).encodeABI(),
-        'chainId': chainId
+      'from': userAddress,
+      'nonce': '0x' + count.toString(16),
+      'gasPrice': this.web3.utils.toHex(gasPriceGwei * 1e9),
+      'gasLimit': this.web3.utils.toHex(gasLimit),
+      'to': saleContractAddress,
+      'value': weiAmountHex,
+      'data': contract.methods.buyTokens(userAddress).encodeABI(),
+      'chainId': chainId
     };
 
     return Promise.resolve(rawTransaction);
   }
 
   async purchaseTokensAsync(userAddress: string, userPrivKey: string, saleContractAddress: string, weiAmountHex: string,
-    gasPriceGwei: number, gasLimit: number): Promise<TransactionReceipt> {
+    gasPriceGwei: number, gasLimit: number, successCallback: Function): Promise<TransactionReceipt> {
     try {
       const rawTransaction = await this.getPurchaseTokensTransaction(userAddress, saleContractAddress, weiAmountHex,
         gasPriceGwei, gasLimit);
@@ -147,16 +147,16 @@ export class Web3Service {
 
       this.firebase.logTokenPurchaseTxSent(userAddress, serializedTxHex.toString('hex'));
 
-      const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'));
+      const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'))
+        .on('transactionHash', hash => {
+          successCallback(hash);
+        });
 
-      // look at the return types from send transaction, emits multiple events, can subscribe to it and handle differently
       console.log(`Receipt: \n${JSON.stringify(receipt, null, '\t')}`);
-
       this.firebase.logTokenPurchaseSuccess(userAddress, JSON.stringify(receipt));
 
       return Promise.resolve(receipt);
     } catch (e) {
-
       this.firebase.logTokenPurchaseError(userAddress, JSON.stringify(e));
       return Promise.reject(null);
     }

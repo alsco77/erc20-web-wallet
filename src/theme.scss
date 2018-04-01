@@ -1,26 +1,8 @@
 @import '~@angular/material/theming';
-
 @include mat-core();
 
-$primary: mat-palette($mat-grey, 700, 300, 800);
-$accent:  mat-palette($mat-light-green, 500, 100, 700);
+$primary: mat-palette($mat-grey, 800, 400, 900);
+$accent : mat-palette($mat-light-green, 500, 100, 700);
 
-// The warn palette is optional (defaults to red).
-$warn:    mat-palette($mat-red);
-
-// Create the theme object (a Sass map containing all of the palettes).
-// mat-color($primary, lighter/darker) <-
+$warn : mat-palette($mat-red);
 $theme: mat-dark-theme($primary, $accent, $warn);
-
-
-// .mat-primary-fg {
-//     color: mat-color($primary) !important;
-// }
-
-// .mat-primary-bg {
-//     background-color: mat-color($primary) !important;
-// }
-
-// .mat-primary-bg-dark {
-//     // background-color: mat-color($primary, darker) !important;
-// }

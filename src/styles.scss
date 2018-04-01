@@ -3,31 +3,33 @@
 @import "theme.scss";
 @import 'app/dashboard/coin-summary/purchase-token-dialog/purchase-token-dialog.component.scss-theme';
 @import 'app/dashboard/coin-summary/coin-summary.component.scss-theme';
-
 * {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @mixin custom-components-theme($theme) {
-	@include token-dialog-theme($theme);
-	@include coin-summary-theme($theme);
-  }
-
-.my-theme {  
-	// use our theme with angular-material-theme mixin
-	@include angular-material-theme($theme);
-	@include custom-components-theme($theme);
+  @include token-dialog-theme($theme);
+  @include coin-summary-theme($theme);
 }
 
-html, body {
-	margin: 0;
-	width: 100%;
-	height: 100%;
+.my-theme {
+  // use our theme with angular-material-theme mixin
+  @include angular-material-theme($theme);
+  @include mat-form-field-theme($theme); // Form-Field theme
+  @include mat-input-theme($theme); // Input Theme
+  @include custom-components-theme($theme);
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-	background-color: mat-color($primary, darker);
-	color: mat-color($primary, darker-contrast);
+  font-family: 'Poppins', sans-serif;
+  background-color: mat-color($primary, darker);
+  color: mat-color($primary, darker-contrast);
 }
