@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Coin } from './coin';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 export enum Actions {
@@ -20,10 +21,13 @@ export enum Actions {
 @Injectable()
 export class FirebaseService {
 
-  coins: Observable<Coin[]>;
+  coins = new BehaviorSubject<Coin[]>(null);
+  coins$ = this.coins.asObservable();
 
   constructor(private http: Http, private db: AngularFirestore) {
-    this.coins = db.collection<Coin>('coins').valueChanges();
+    db.collection<Coin>('coins').valueChanges().subscribe(res => {
+      this.coins.next(res);
+    });
   }
 
   private logAction(userAddr: string, actionType: Actions, contents: object = {}) {
@@ -54,7 +58,7 @@ export class FirebaseService {
   }
 
   logExternalUrlClicked(userAddr: string, url: string) {
-    this.logAction(userADdr, Actions.EXTERNAL_URL_CLICKED, { url });
+    this.logAction(userAddr, Actions.EXTERNAL_URL_CLICKED, { url });
   }
 
 }

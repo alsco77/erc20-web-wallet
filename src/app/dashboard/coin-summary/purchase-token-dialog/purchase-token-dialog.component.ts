@@ -49,9 +49,9 @@ export class PurchaseTokenDialogComponent implements OnInit {
   }
 
   async estimateGas(ethAmount: string, gasPriceGwei: number, gasLimit: number) {
-    if (parseFloat(ethAmount, 10) > 0) {
+    if (parseFloat(ethAmount) > 0) {
       const tx = await this.web3Service.getPurchaseTokensTransaction(this.account.address, this.coin.saleContractAddress,
-        this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)), gasPriceGwei, gasLimit);
+        this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)), gasPriceGwei, 250000);
       console.log('evaluating cost of tx:' + JSON.stringify(tx));
       this.gasLimit = await this.web3Service.estimateGasAsync(tx);
     }
@@ -59,7 +59,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
 
   async purchaseTokensAsync(ethAmount: string, gasPriceGwei: number, gasLimit: number) {
 
-    if (parseFloat(ethAmount, 10) > 0) {
+    if (parseFloat(ethAmount) > 0) {
       this.saving = true;
       this.error = false;
 

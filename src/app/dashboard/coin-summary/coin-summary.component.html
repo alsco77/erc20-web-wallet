@@ -1,9 +1,9 @@
-<mat-card class="coin-card" *ngIf="balanceLoaded" fxLayoutAlign="row">
+<mat-card class="coin-card"  fxLayoutAlign="row">
   <img fxFlex="100px" (click)="setBalanceAsync()" mat-card-image class="coin-emblem" src="assets/token-images/{{coin.id}}.png" alt="{{coin.name}} emblem">
   <div class="content" fxFlex="40">
     <span class="title">{{coin.name}} ({{coin.symbol}})</span>
     <br/>
-    <span class="balance">Balance: {{balance | weiToEth | currencyFormat}} {{coin.symbol}}</span>
+    <span class="balance" *ngIf="balanceLoaded">Balance: {{balance | weiToEth | currencyFormat}} {{coin.symbol}}</span>
     <span *ngIf="price != null">{{(balance | weiToEth )* price}} USD</span>
 
   </div>
@@ -11,6 +11,6 @@
   <div fxFlex="40" class="actions">
     <button mat-button [disabled]="true">SEND</button>
     <button mat-button [disabled]="true">RECEIVE</button>
-    <button mat-button [disabled]="coin.saleContractAddress == null" (click)="purchaseTokens()">EXCHANGE</button>
+    <button mat-button [disabled]="coin.saleContractAddress == null || !balanceLoaded" (click)="purchaseTokens()">EXCHANGE</button>
   </div>
 </mat-card>

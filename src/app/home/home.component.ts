@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  authType = '';
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  createAccount() {
+
+  }
+
+  authViaPkey() {
+    if (this.authType === 'pKey') {
+      this.authType = '';
+    } else {
+      this.authType = 'pKey';
+    }
   }
 
 }

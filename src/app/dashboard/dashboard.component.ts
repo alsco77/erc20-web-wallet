@@ -15,6 +15,9 @@ export class DashboardComponent implements OnInit {
   coins: Array<Coin> = [];
 
   constructor(private web3: Web3Service, private router: Router, private firebase: FirebaseService) {
+  }
+
+  ngOnInit() {
     this.web3.authenticatedAccount$.subscribe(acc => {
       if (acc == null) {
         this.router.navigate(['/']);
@@ -26,8 +29,5 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
-  }
-
-  ngOnInit() {
   }
 }
