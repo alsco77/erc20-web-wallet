@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FirebaseService } from '../firebase.service';
+import { Web3Service } from '../web3.service';
 
 @Component({
   selector: 'oasis-toolbar',
@@ -8,12 +11,18 @@ import { Component, OnInit } from '@angular/core';
 export class ToolbarComponent implements OnInit {
 
   showMenu = false;
+  githubUrl = 'http://www.github.com/alsco77/erc20-web-wallet';
 
-  public githubUrl: 'http://www.github.com/alsco77/erc20-web-wallet';
-
-  constructor() { }
+  constructor(private firebase: FirebaseService, private router: Router, private web3: Web3Service) { }
 
   ngOnInit() {
+  }
+
+  navigateToGithub() {
+    const acc = this.web3.authenticatedAccount.getValue();
+    const addr = acc == null || acc === undefined ? null : acc.address;
+    this.firebase.logExternalUrlClicked(addr, this.githubUrl);
+    window.location.href = this.githubUrl;
   }
 
 }

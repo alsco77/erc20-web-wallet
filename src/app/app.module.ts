@@ -4,6 +4,10 @@ import { RouterModule } from '@angular/router';
 import { MatSliderModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { environment } from '../environments/environment';
+
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
@@ -20,6 +24,8 @@ import { HomeComponent } from './home/home.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
     ]),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatSliderModule,

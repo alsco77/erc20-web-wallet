@@ -9,6 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { Web3Service } from './web3.service';
+import { FirebaseService } from './firebase.service';
 import { WebFuncService } from './web-func.service';
 import { Utils } from './utils';
 import { ABI } from './abi';
@@ -56,6 +57,7 @@ import { CurrencyFormatPipe } from './pipes/currency-format.pipe';
   ],
   providers: [
     Web3Service,
+    FirebaseService,
     WebFuncService,
     Utils,
     ABI

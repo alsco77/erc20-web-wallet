@@ -16,7 +16,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
   purchaseAmountEth = '0.000';
   gweiAmount = 11;
   gasLimit = 200000;
-  ethBalance: number;
+  ethBalance: string;
 
   error = false;
   errorMessage: string;
@@ -48,7 +48,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
   }
 
   async estimateGas(ethAmount: string, gasPriceGwei: number, gasLimit: number) {
-    if (parseInt(ethAmount, 10) > 0) {
+    if (parseFloat(ethAmount, 10) > 0) {
       const tx = await this.web3Service.getPurchaseTokensTransaction(this.account.address, this.coin.saleContractAddress,
         this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)), gasPriceGwei, gasLimit);
       console.log('evaluating cost of tx:' + JSON.stringify(tx));
@@ -57,26 +57,32 @@ export class PurchaseTokenDialogComponent implements OnInit {
   }
 
   async purchaseTokensAsync(ethAmount: string, gasPriceGwei: number, gasLimit: number) {
-    this.saving = true;
-    this.error = false;
 
-    const result = await this.web3Service.purchaseTokensAsync(this.account.address, this.account.privateKey, this.coin.saleContractAddress,
-      this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)), gasPriceGwei, gasLimit);
-    // instead of awaiting this we can subscribe to it and utilise different things
-    if (result) {
-      const status = parseInt(result.status, 16);
-      console.log(status);
-      if (status === 1) {
-        // return status
-        // success - result.transactionHash should show
-        // this.saved = true;
-        this.saved = true;
-        setTimeout(() => this.dialogRef.close(true), 3500);
+    if (parseFloat(ethAmount, 10) > 0) {
+      this.saving = true;
+      this.error = false;
+
+      const result = await this.web3Service.purchaseTokensAsync(this.account.address, this.account.privateKey,
+        this.coin.saleContractAddress, this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)),
+          gasPriceGwei, gasLimit);
+      // instead of awaiting this we can subscribe to it and utilise different things
+      if (result) {
+        const status = parseInt(result.status, 16);
+        console.log(status);
+        if (status === 1) {
+          // return status
+          // success - result.transactionHash should show
+          // this.saved = true;
+          this.saved = true;
+          setTimeout(() => this.dialogRef.close(true), 3500);
+        } else {
+          this.setError('Transaction sending failed');
+        }
       } else {
-        this.setError('Transaction sending failed');
+        this.setError('Transaction compilation dailed');
       }
     } else {
-      this.setError('Transaction compilation dailed');
+      this.setError('Purchase amount must be a number');
     }
   }
 

@@ -10,8 +10,8 @@
     <span *ngIf="price != null">{{(balance | weiToEth )* price}} USD</span>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button [disabled]>SEND</button>
-    <button mat-button [disabled]>RECEIVE</button>
+    <button mat-button [disabled]="true">SEND</button>
+    <button mat-button [disabled]="true">RECEIVE</button>
     <button mat-button [disabled]="coin.saleContractAddress == null" (click)="purchaseTokens()">EXCHANGE</button>
   </mat-card-actions>
 </mat-card>

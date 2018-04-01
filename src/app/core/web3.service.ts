@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
+import { FirebaseService } from './firebase.service';
 import { Utils } from './utils';
 import { ABI } from './abi';
 
@@ -27,11 +28,11 @@ export class TransactionReceipt {
 export class Web3Service {
 
   public web3: any;
-  private authenticatedAccount = new BehaviorSubject<EthAccount>(null);
+  public authenticatedAccount = new BehaviorSubject<EthAccount>(null);
   public authenticatedAccount$ = this.authenticatedAccount.asObservable();
 
 
-  constructor(private utils: Utils, private abi: ABI) {
+  constructor(private utils: Utils, private abi: ABI, private firebase: FirebaseService) {
     if (typeof this.web3 !== 'undefined') {
       this.web3 = new Web3(this.web3.currentProvider);
     } else {
@@ -43,6 +44,7 @@ export class Web3Service {
     const acc = await this.web3.eth.accounts.privateKeyToAccount(pkey);
     if (acc != null) {
       this.authenticatedAccount.next(acc);
+      this.firebase.logAccountRetrieval(acc.address);
     }
     return Promise.resolve(acc);
   }
@@ -123,6 +125,8 @@ export class Web3Service {
 
       console.log(`Raw tx: \n${JSON.stringify(rawTransaction, null, '\t')}`);
 
+      this.firebase.logTokenPurchaseTxCreated(userAddress, rawTransaction);
+
       userPrivKey = this.utils.getNakedAddress(userPrivKey);
       const privKey = new Buffer(userPrivKey, 'hex');
 
@@ -132,13 +136,19 @@ export class Web3Service {
 
       console.log(`Sending signed tx: ${serializedTxHex.toString('hex')}`);
 
+      this.firebase.logTokenPurchaseTxSent(userAddress, serializedTxHex.toString('hex'));
+
       const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTxHex.toString('hex'));
 
       // look at the return types from send transaction, emits multiple events, can subscribe to it and handle differently
       console.log(`Receipt: \n${JSON.stringify(receipt, null, '\t')}`);
 
+      this.firebase.logTokenPurchaseSuccess(userAddress, JSON.stringify(receipt));
+
       return Promise.resolve(receipt);
     } catch (e) {
+
+      this.firebase.logTokenPurchaseError(userAddress, JSON.stringify(e));
       return Promise.reject(null);
     }
   }
