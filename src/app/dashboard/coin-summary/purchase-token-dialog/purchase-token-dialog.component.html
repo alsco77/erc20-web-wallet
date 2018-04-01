@@ -18,7 +18,7 @@
     </div>
 
     <mat-form-field color="accent" class="eth-input">
-      <input matInput [disabled]="sending" placeholder="GAS Limit" [(ngModel)]="gasLimit" />
+      <input matInput [disabled]="sending || calculatingGas" placeholder="GAS Limit" [(ngModel)]="gasLimit" />
     </mat-form-field>
     <p class="tx-cost">Tx cost: {{getGasCostEth(gasLimit, gweiAmount)}} ETH</p>
     <p class="token-amount">
@@ -31,15 +31,15 @@
   </div>
 </div>
 <div mat-dialog-content *ngIf="transactionSent">
-  Transaction successfully sent, track it here:
-  <a class="tx-link" href="getTxLink(txHash)">{{getTxLink(txHash)}}</a>
+  Transaction sent successfully, track it here:
+  <a class="tx-link" href="{{getTxLink(txHash)}}" target="txInfo">{{getTxLink(txHash)}}</a>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close [disabled]="sending" (click)="onNoClick()">
     Cancel
   </button>
   <button mat-raised-button color="accent" (click)="transactionSent ? onNoClick() : purchaseTokensAsync(purchaseAmountEth, gweiAmount, gasLimit)"
-    [disabled]="sending">
+    [disabled]="sending|| calculatingGas">
     <span id="spinnerContainer" *ngIf="sending && !transactionSent">
       <mat-spinner [diameter]="20" class="spinner">
       </mat-spinner>

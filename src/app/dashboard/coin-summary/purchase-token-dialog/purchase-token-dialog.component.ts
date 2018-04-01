@@ -17,6 +17,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
   purchaseAmountEth = '0.000';
   gweiAmount = 11;
   gasLimit = 25000;
+  calculatingGas = false;
   ethBalance: string;
 
   error = false;
@@ -52,10 +53,12 @@ export class PurchaseTokenDialogComponent implements OnInit {
 
   async estimateGas(ethAmount: string, gasPriceGwei: number, gasLimit: number) {
     if (parseFloat(ethAmount) > 0) {
+      this.calculatingGas = true;
       const tx = await this.web3Service.getPurchaseTokensTransaction(this.account.address, this.coin.saleContractAddress,
         this.web3Service.web3.utils.toHex(this.web3Service.web3.utils.toWei(ethAmount)), gasPriceGwei, 250000);
       console.log('evaluating cost of tx:' + JSON.stringify(tx));
       this.gasLimit = await this.web3Service.estimateGasAsync(tx);
+      this.calculatingGas = false;
     }
   }
 
@@ -66,6 +69,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
   }
 
   getTxLink(txHash: string) {
+    // To modularise can base this on provider
     return 'https://ropsten.etherscan.io/tx/' + txHash;
   }
 
@@ -82,7 +86,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
           this.setError('Transaction sending failed');
         } else {
           this.setTransactionAsSent(result.transactionHash);
-          // setTimeout(() => this.dialogRef.close(true), 5000);
+          setTimeout(() => this.dialogRef.close(true), 10000);
         }
       } catch (e) {
         this.setError('Transaction sending failed');
