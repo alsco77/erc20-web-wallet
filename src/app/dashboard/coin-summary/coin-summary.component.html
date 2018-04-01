@@ -1,17 +1,16 @@
-
-
-<mat-card class="coin-card" *ngIf="balanceLoaded">
-  <mat-card-header>
-    <mat-card-title>{{coin.name}}</mat-card-title>
-  </mat-card-header>
-  <img (click)="setBalanceAsync()" mat-card-image class="coin-emblem" src="assets/token-images/{{coin.id}}.png" alt="{{coin.name}} emblem">
-  <mat-card-content>
-    Balance: {{balance | weiToEth | currencyFormat}} {{coin.symbol}}
+<mat-card class="coin-card" *ngIf="balanceLoaded" fxLayoutAlign="row">
+  <img fxFlex="100px" (click)="setBalanceAsync()" mat-card-image class="coin-emblem" src="assets/token-images/{{coin.id}}.png" alt="{{coin.name}} emblem">
+  <div class="content" fxFlex="40">
+    <span class="title">{{coin.name}} ({{coin.symbol}})</span>
+    <br/>
+    <span class="balance">Balance: {{balance | weiToEth | currencyFormat}} {{coin.symbol}}</span>
     <span *ngIf="price != null">{{(balance | weiToEth )* price}} USD</span>
-  </mat-card-content>
-  <mat-card-actions>
+
+  </div>
+  <div fxFlex></div>
+  <div fxFlex="40" class="actions">
     <button mat-button [disabled]="true">SEND</button>
     <button mat-button [disabled]="true">RECEIVE</button>
     <button mat-button [disabled]="coin.saleContractAddress == null" (click)="purchaseTokens()">EXCHANGE</button>
-  </mat-card-actions>
+  </div>
 </mat-card>

@@ -6,14 +6,14 @@ import { Observable } from 'rxjs/Observable';
 
 
 export enum Actions {
-  ACC_RETRIEVAL_PKEY = 'Account_retrieved_via_public_key';
+  ACC_RETRIEVAL_PKEY = 'Account_retrieved_via_public_key',
 
-  TOKEN_PURCHASE_TX_CREATED = 'Token_purchase_initialised';
-  TOKEN_PURCHASE_TX_SENT = 'Token_purchase_tx_sent';
-  TOKEN_PURCHASE_SUCCESS = 'Token_purchase_success';
-  TOKEN_PURCHASE_ERROR = 'Token_purchase_error';
+  TOKEN_PURCHASE_TX_CREATED = 'Token_purchase_initialised',
+  TOKEN_PURCHASE_TX_SENT = 'Token_purchase_tx_sent',
+  TOKEN_PURCHASE_SUCCESS = 'Token_purchase_success',
+  TOKEN_PURCHASE_ERROR = 'Token_purchase_error',
 
-  EXTERNAL_URL_CLICKED = 'External_url_clicked';
+  EXTERNAL_URL_CLICKED = 'External_url_clicked'
 }
 
 

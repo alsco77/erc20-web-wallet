@@ -1,15 +1,23 @@
 @import '~@angular/material/theming';
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 @import "theme.scss";
+@import 'app/dashboard/coin-summary/purchase-token-dialog/purchase-token-dialog.component.scss-theme';
+@import 'app/dashboard/coin-summary/coin-summary.component.scss-theme';
 
 * {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
+@mixin custom-components-theme($theme) {
+	@include token-dialog-theme($theme);
+	@include coin-summary-theme($theme);
+  }
+
 .my-theme {  
 	// use our theme with angular-material-theme mixin
 	@include angular-material-theme($theme);
+	@include custom-components-theme($theme);
 }
 
 html, body {

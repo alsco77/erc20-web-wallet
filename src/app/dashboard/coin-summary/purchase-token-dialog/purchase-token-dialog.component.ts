@@ -6,7 +6,8 @@ import { Coin } from '../../../core/coin';
 @Component({
   selector: 'oasis-purchase-token-dialog',
   templateUrl: './purchase-token-dialog.component.html',
-  styleUrls: ['./purchase-token-dialog.component.css']
+  styleUrls: ['./purchase-token-dialog.component.css',
+              './purchase-token-dialog.component.scss-theme.scss']
 })
 export class PurchaseTokenDialogComponent implements OnInit {
 
@@ -15,7 +16,7 @@ export class PurchaseTokenDialogComponent implements OnInit {
 
   purchaseAmountEth = '0.000';
   gweiAmount = 11;
-  gasLimit = 200000;
+  gasLimit = 25000;
   ethBalance: string;
 
   error = false;

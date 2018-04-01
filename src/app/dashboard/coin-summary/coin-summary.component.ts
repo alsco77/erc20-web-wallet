@@ -9,7 +9,7 @@ import { PurchaseTokenDialogComponent } from './purchase-token-dialog/purchase-t
 @Component({
   selector: 'oasis-coin-summary',
   templateUrl: './coin-summary.component.html',
-  styleUrls: ['./coin-summary.component.css']
+  styleUrls: ['./coin-summary.component.css', './coin-summary.component.scss-theme.scss']
 })
 export class CoinSummaryComponent implements OnInit, OnChanges {
 

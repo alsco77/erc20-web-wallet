@@ -1,4 +1,12 @@
-<div class="coin-container" fxLayout="row" fxLayoutAlign="center" *ngIf="account">
-      <oasis-coin-summary fxFlex="0 0 50" *ngFor="let coin of coins" [coin]="coin" [account]="account"></oasis-coin-summary>
+<h1 class="dashboard-title">Dashboard</h1>
+
+<div class="coin-container" fxLayout="column" fxLayoutAlign="center" *ngIf="account">
+      <div fxFlex="20">
+
+      </div>
+      <oasis-coin-summary fxFlex="60" *ngFor="let coin of coins" [coin]="coin" [account]="account"></oasis-coin-summary>
+      <div fxFlex="20">
+
+      </div>
 
 </div>

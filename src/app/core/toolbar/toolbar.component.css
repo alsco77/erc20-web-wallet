@@ -5,8 +5,12 @@
 }
 
 .provider{
-    font-size: 0.6em;
+    font-size: 0.5em;
     line-height: 1;
     padding-right: 20px;
     text-align: center;
+}
+
+.toolbar-title{
+    cursor: pointer;
 }
