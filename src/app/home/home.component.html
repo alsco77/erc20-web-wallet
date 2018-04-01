@@ -15,7 +15,7 @@
       Create account
     </button>
   </div>
-  <div *ngIf="authType == 'pKey'" style="width: 80%" fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="40px">
+  <div *ngIf="authType == 'pKey'" [@authTransition]  style="width: 80%" fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="40px">
     <oasis-authenticate fxFlex="80"></oasis-authenticate>
   </div>
 </div>

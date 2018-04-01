@@ -15,7 +15,7 @@ export const routerTransition = trigger('routerTransition', [
       ], { optional: true }),
     ])
   ]),
-  transition('dashboard => home', [
+  transition('* => home', [
     query(':enter, :leave', style({ position: 'fixed', width: '100%' })
       , { optional: true }),
     group([
