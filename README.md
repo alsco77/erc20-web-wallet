@@ -4,9 +4,9 @@
 ## What?
  - ERC20 Web wallet currently for use with Ethereum and [Oasis Credit](https://github.com/alsco77/oasis-credit)
  - Operates on the Ropsten Network
- - Allows balance checking and purchasing of Credits 
-
-### Oasis Credit?
+ - Allows balance checking and purchasing of Credits
+ 
+### Oasis Credit?
  - Inspiration from [Ready Player One](https://www.goodreads.com/book/show/9969571-ready-player-one), my favourite book that has recently adapted to a [movie](https://www.youtube.com/watch?v=cSp1dM2Vj48)
  - Digital ownership of items is an interesting concept, whether it be for virtual or physical items, so conceptually designing a currency for a virtual reality seemed like a fun idea
 
