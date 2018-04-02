@@ -27,7 +27,7 @@ export class CoinSummaryComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-    // subscribe to block even to keep balance up to date
+    // TODO - subscribe to block event to keep balance up to date
     // const filter = this.web3Service.web3.eth.subscribe('latest');
     this.setBalanceAsync();
     this.price = await this.webFunc.getCurrentPriceAsync(this.coin.id);
