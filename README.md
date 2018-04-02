@@ -25,6 +25,8 @@
 
 
 ## Future plans (todo list)
+ - Pop down for each coin with tx history etc
+    - List TX info and automatically update status
  - Sending and receiving of tokens
  - Login upgrades
     - Address creation
@@ -35,7 +37,6 @@
     - Shapeshift-esque plugin for exchanging tokens
     - 2 way purchasing window
  - SSL cert for HTTPS
- - Pop down for each coin with tx history etc
  - Proper Angular native form validation
  - Further validation
     - Tests
